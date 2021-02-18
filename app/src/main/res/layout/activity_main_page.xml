@@ -22,7 +22,7 @@
             android:textSize="24sp" />
 
         <FrameLayout
-            android:id="@+id/mainFrame"
+            android:id="@+id/FragmentMainFrame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.5">
