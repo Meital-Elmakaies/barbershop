@@ -95,6 +95,7 @@ public class FragmentRegBarberPage extends Fragment {
                 Person Barber = BarberPerson(view);
                 // sent to the main activity for sing up the barber with the password and the barber object
                 MainActivity mainActivity = (MainActivity) getActivity();
+            //    mainActivity.s
                 mainActivity.loadLogInFragment(Barber,password);
             }
         });

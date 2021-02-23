@@ -76,8 +76,6 @@ public class MainPage extends AppCompatActivity {
             }
         });
 
-        return ;
-
 
     }
 
