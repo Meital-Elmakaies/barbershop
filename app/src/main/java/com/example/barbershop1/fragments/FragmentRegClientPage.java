@@ -90,13 +90,15 @@ public class FragmentRegClientPage extends Fragment {
                 Person client = ClientPerson(view);
                 // sent to the main activity for sing up the client with the password and the client object
                 MainActivity mainActivity = (MainActivity) getActivity();
-                mainActivity.loadLogInFragment(client,password);
+                //   mainActivity.saveData();
+                mainActivity.loadLogInFragment(client, password);
             }
         });
         return view;
     }
+
     // take the details of the new user and make person object for the database
-    public Person ClientPerson(View view){
+    public Person ClientPerson(View view) {
 
         textemail = view.findViewById(R.id.emailClientRegText);
         textuserName = view.findViewById(R.id.nameClientRegText);
@@ -104,13 +106,14 @@ public class FragmentRegClientPage extends Fragment {
         textcity = view.findViewById(R.id.cityClientRegText);
         textsaloncode = view.findViewById(R.id.salonCodeClientRegText);
 
+
         String email = textemail.getText().toString();
         String userName = textuserName.getText().toString();
         String phone = textphone.getText().toString();
         String city = textcity.getText().toString();
         String SalonCode = textsaloncode.getText().toString();
 
-        Person p = new Person(userName,email,phone,city,null, SalonCode,null,false);
+        Person p = new Person(userName, email, phone, city, null, SalonCode, null, false);
 
         return p;
     }
