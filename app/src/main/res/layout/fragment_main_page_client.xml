@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragments.FragmentLogInPage">
+    tools:context=".fragments.FragmentMainPageClient">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,30 +12,15 @@
         android:layout_weight="1"
         android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/emailText"
+        <TextView
+            android:id="@+id/mainClientPageTitle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:ems="10"
-            android:hint="Email"
-            android:inputType="textEmailAddress" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/passText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="Password"
-            android:inputType="numberPassword" />
+            android:gravity="center|center_horizontal"
+            android:text="Main Client Page"
+            android:textColor="#B36A6A"
+            android:textSize="30sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -45,14 +30,14 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/loginButton"
+            android:id="@+id/AppointClientButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:backgroundTint="#E1CDCD"
-            android:text="Sing In"
+            android:text="Making appointment"
             android:textColor="#B36A6A"
-            android:textSize="24sp"
+            android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -63,27 +48,14 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/barberRegButton"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-
-            android:backgroundTint="#E1CDCD"
-            android:text="barber registration"
-            android:textColor="#B36A6A"
-            android:textSize="12sp"
-            android:textStyle="bold" />
-
-
-        <Button
-            android:id="@+id/clientRegButton"
+            android:id="@+id/cancelAppointClientButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:backgroundTint="#E1CDCD"
-            android:text="client registration"
+            android:text="cancel the appointment"
             android:textColor="#B36A6A"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>
