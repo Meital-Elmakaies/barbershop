@@ -14,7 +14,9 @@ import android.widget.TextView;
 import com.example.barbershop1.R;
 import com.example.barbershop1.classes.Person;
 import com.example.barbershop1.fragments.FragmentBarberSetting;
+import com.example.barbershop1.fragments.FragmentClientAppointmentPage;
 import com.example.barbershop1.fragments.FragmentMainPageBarber;
+import com.example.barbershop1.fragments.FragmentMainPageClient;
 import com.example.barbershop1.fragments.FragmentWorkHour;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -65,6 +67,11 @@ public class MainPage extends AppCompatActivity {
                     fragmentTransaction.add(R.id.FragmentMainFrame, new FragmentMainPageBarber()).commit();
                     return; // return to avoid Else code - just add necessary code
                 }
+                else {
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.add(R.id.FragmentMainFrame, new FragmentMainPageClient()).commit();
+                    return;
+                }
 
 
             }
@@ -101,5 +108,12 @@ public class MainPage extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         fragmentTransaction.replace(R.id.FragmentMainFrame,new FragmentWorkHour()).addToBackStack(null).commit();
+    }
+    public void loadAppoinClientFragment()
+    {
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.replace(R.id.FragmentMainFrame,new FragmentClientAppointmentPage()).addToBackStack(null).commit();
+
     }
 }
