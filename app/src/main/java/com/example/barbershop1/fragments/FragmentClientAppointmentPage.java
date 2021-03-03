@@ -8,9 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.barbershop1.R;
+import com.example.barbershop1.activity.MainActivity;
+import com.example.barbershop1.activity.MainPage;
+import com.example.barbershop1.classes.AppointmentInfo;
+import com.example.barbershop1.classes.Person;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,8 +95,8 @@ public class FragmentClientAppointmentPage extends Fragment {
         hour= view.findViewById(R.id.hourSpinnerClientAppoint);
 
         List<String> Hour = new ArrayList<>();
-        Hour.add("    ");
-        for(int i=1 ; i<=24 ; i++)
+        Hour.add("choose");
+        for(int i=9 ; i<=20 ; i++)
         {
             if(i<10)
             {
@@ -101,23 +107,26 @@ public class FragmentClientAppointmentPage extends Fragment {
                 Hour.add(i+":00");
             }
         }
-        List<Integer> Day = new ArrayList<>();
+        List<String> Day = new ArrayList<>();
+        Day.add("choose");
         for (int i = 1; i<=31;i++)
         {
-            Day.add(i);
+            Day.add(String.valueOf(i));
         }
-        List<Integer> Month = new ArrayList<>();
+        List<String> Month = new ArrayList<>();
+        Month.add("choose");
         for (int i = 1; i<=12;i++)
         {
-            Month.add(i);
+            Month.add(String.valueOf(i));
         }
-        List<Integer> Year = new ArrayList<>();
+        List<String> Year = new ArrayList<>();
+        Year.add("choose");
         for (int i = 2021; i<=2035;i++)
         {
-            Year.add(i);
+            Year.add(String.valueOf(i));
         }
         List<String> HaircutType = new ArrayList<>();
-        HaircutType.add("    ");
+        HaircutType.add("choose");
         HaircutType.add("woman haircut");
         HaircutType.add("man haircut");
         HaircutType.add("woman haircut and color");
@@ -130,13 +139,13 @@ public class FragmentClientAppointmentPage extends Fragment {
         HourAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         hour.setAdapter(HourAdapter);
         //set up date spinner
-        ArrayAdapter<Integer> DayAdapter = new ArrayAdapter(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item,Day);
+        ArrayAdapter<String> DayAdapter = new ArrayAdapter(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item,Day);
         DayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dateDay.setAdapter(DayAdapter);
-        ArrayAdapter<Integer> MonthAdapter = new ArrayAdapter(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item,Month);
+        ArrayAdapter<String> MonthAdapter = new ArrayAdapter(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item,Month);
         MonthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dateMonth.setAdapter(MonthAdapter);
-        ArrayAdapter<Integer> YearAdapter = new ArrayAdapter(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item,Year);
+        ArrayAdapter<String> YearAdapter = new ArrayAdapter(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item,Year);
         YearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dateYear.setAdapter(YearAdapter);
         //set up haircut spinner
@@ -144,6 +153,28 @@ public class FragmentClientAppointmentPage extends Fragment {
         HaircutAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         haircutChoose.setAdapter(HaircutAdapter);
 
+
+        Button MakeAppointment = view.findViewById(R.id.okButton);
+
+        MakeAppointment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text = dateDay.getSelectedItem().toString();
+
+                String hourAppoin =  hour.getSelectedItem().toString();
+                String yearAppoin =  dateYear.getSelectedItem().toString();
+                String dayAppoin =  dateDay.getSelectedItem().toString();
+                String monthAppoin =  dateMonth.getSelectedItem().toString();
+                String HairChoose = haircutChoose.getSelectedItem().toString();
+
+
+                AppointmentInfo A = new AppointmentInfo(dayAppoin,monthAppoin,yearAppoin,hourAppoin,HairChoose);
+                MainPage mainPage = (MainPage) getActivity();
+                mainPage.makeAppointmentToClient(A);
+
+
+            }
+        });
 
         return view;
     }
