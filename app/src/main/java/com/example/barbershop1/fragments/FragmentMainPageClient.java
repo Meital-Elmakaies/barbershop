@@ -67,6 +67,8 @@ public class FragmentMainPageClient extends Fragment {
 
 
         Button makeAppointButton = view.findViewById(R.id.AppointClientButton);
+        Button cancelAppointButton = view.findViewById(R.id.cancelAppointClientButton);
+
 
         makeAppointButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +76,15 @@ public class FragmentMainPageClient extends Fragment {
 
                 MainPage mainPage = (MainPage) getActivity();
                 mainPage.loadAppoinClientFragment();
+            }
+        });
+
+        cancelAppointButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                MainPage mainPage = (MainPage) getActivity();
+                mainPage.cancelAppointment();
             }
         });
 

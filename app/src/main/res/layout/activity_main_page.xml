@@ -14,13 +14,23 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/DefMainTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:textColor="#B36A6A"
+            android:textSize="30sp" />
+
+        <TextView
             android:id="@+id/welcomeIdPerson"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.5"
             android:gravity="center|center_horizontal"
             android:textColor="#B36A6A"
-            android:textSize="30sp" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <FrameLayout
             android:id="@+id/FragmentMainFrame"

@@ -12,23 +12,6 @@
         android:layout_weight="1"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/mainClientPageTitle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center|center_horizontal"
-            android:text="Main Client Page"
-            android:textColor="#B36A6A"
-            android:textSize="30sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
         <Button
             android:id="@+id/AppointClientButton"
             android:layout_width="match_parent"
