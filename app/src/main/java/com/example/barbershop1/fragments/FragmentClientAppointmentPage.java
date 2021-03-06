@@ -38,6 +38,7 @@ public class FragmentClientAppointmentPage extends Fragment {
 
     //hour
     private Spinner hour;
+    String endOfTheAppoint;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -129,7 +130,7 @@ public class FragmentClientAppointmentPage extends Fragment {
         HaircutType.add("choose");
         HaircutType.add("woman haircut");
         HaircutType.add("man haircut");
-        HaircutType.add("woman haircut and color");
+        //HaircutType.add("woman haircut and color");
 
 
 
@@ -159,23 +160,47 @@ public class FragmentClientAppointmentPage extends Fragment {
         MakeAppointment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String text = dateDay.getSelectedItem().toString();
 
                 String hourAppoin =  hour.getSelectedItem().toString();
                 String yearAppoin =  dateYear.getSelectedItem().toString();
                 String dayAppoin =  dateDay.getSelectedItem().toString();
                 String monthAppoin =  dateMonth.getSelectedItem().toString();
                 String HairChoose = haircutChoose.getSelectedItem().toString();
+                if(HairChoose.equals("woman haircut"))
+                {
+                    String splitHour = splitFunc(hourAppoin);
+                    int hourInt = Integer.parseInt(splitHour);
+                         hourInt = hourInt+2;
+                    String temp =  Integer.toString(hourInt);
+                    endOfTheAppoint = temp + ":00";
+                }
+                if(HairChoose.equals("man haircut"))
+                {
+                    String splitHour = splitFunc(hourAppoin);
+                    int hourInt = Integer.parseInt(splitHour);
+                    hourInt = hourInt+1;
+                    String temp =  Integer.toString(hourInt);
+                    endOfTheAppoint = temp + ":00";
+                }
 
-
-                AppointmentInfo A = new AppointmentInfo(dayAppoin,monthAppoin,yearAppoin,hourAppoin,HairChoose);
+                AppointmentInfo A = new AppointmentInfo(dayAppoin,monthAppoin,yearAppoin,hourAppoin,HairChoose,endOfTheAppoint);
                 MainPage mainPage = (MainPage) getActivity();
                 mainPage.makeAppointmentToClient(A);
-
 
             }
         });
 
+
+
+
         return view;
+    }
+    public String splitFunc(String S)
+    {
+        String currentString = S;
+        String[] separated = currentString.split(":");
+        String num =  separated[0]; // this will contain the number
+
+        return num;
     }
 }

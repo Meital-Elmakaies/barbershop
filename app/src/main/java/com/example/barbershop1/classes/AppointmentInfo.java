@@ -9,13 +9,14 @@ public class AppointmentInfo {
     private  String hour;
     private  String haircut;
     private  String hairSalonCode;
-
-    public AppointmentInfo( String day, String month, String year,String hour,String haircut) {
+    private String endOfTheAppoint;
+    public AppointmentInfo( String day, String month, String year,String hour,String haircut,String EndOfTheAppoint) {
         this.day = day;
         this.month = month;
         this.year = year;
         this.hour = hour;
         this.haircut = haircut;
+        this.endOfTheAppoint = EndOfTheAppoint;
     }
 
     public String getName() {
@@ -72,5 +73,13 @@ public class AppointmentInfo {
 
     public void setHairSalonCode(String hairSalonCode) {
         this.hairSalonCode = hairSalonCode;
+    }
+
+    public String getEndOfTheAppoint() {
+        return endOfTheAppoint;
+    }
+
+    public void setEndOfTheAppoint(String endOfTheAppoint) {
+        this.endOfTheAppoint = endOfTheAppoint;
     }
 }
