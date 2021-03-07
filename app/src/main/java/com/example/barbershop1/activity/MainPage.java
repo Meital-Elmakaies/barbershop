@@ -16,7 +16,6 @@ import com.example.barbershop1.R;
 import com.example.barbershop1.classes.AppointmentInfo;
 import com.example.barbershop1.classes.AppointmentWapper;
 import com.example.barbershop1.classes.Person;
-import com.example.barbershop1.classes.UsersWrapper;
 import com.example.barbershop1.fragments.FragmentBarberSetting;
 import com.example.barbershop1.fragments.FragmentClientAppointmentPage;
 import com.example.barbershop1.fragments.FragmentMainPageBarber;
@@ -29,8 +28,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainPage extends AppCompatActivity {
     TextView nameTV;
@@ -141,16 +141,19 @@ public class MainPage extends AppCompatActivity {
     public void makeAppointmentToClient(AppointmentInfo A) {
         A.setName(loggedPerson.getName());
         A.setHairSalonCode(loggedPerson.getSalonCode());
-         //check if the date that the client choose available
-        if (checkIfTheDateIsAvailable(A)) {
-            ArrayList<AppointmentInfo> appointmentInfoArrayList = AppointmentWapper.getInstance().GetAppointmentList();
-            appointmentInfoArrayList.add(A);
-            SetAppointmentTitle();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.FragmentMainFrame, new FragmentMainPageClient()).addToBackStack(null).commit();
-            return;
+        //check if the date is legal before the others checks
+        if(checkIfLegalDate(A.getDay(),A.getMonth(),A.getYear(),A.getHour())) {
+            //check if the date that the client choose available in the Hair salon
+            if (checkIfTheDateIsAvailable(A)) {
+                ArrayList<AppointmentInfo> appointmentInfoArrayList = AppointmentWapper.getInstance().GetAppointmentList();
+                appointmentInfoArrayList.add(A);
+                SetAppointmentTitle();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.FragmentMainFrame, new FragmentMainPageClient()).addToBackStack(null).commit();
+                return;
+            }
         }
-
+        //cant make appointment send Error message respectively
         Toast.makeText(MainPage.this, Error,
                 Toast.LENGTH_SHORT).show();
 
@@ -203,36 +206,41 @@ public class MainPage extends AppCompatActivity {
     // check if there is a place on the list of the appointment
     public Boolean checkIfTheDateIsAvailable(AppointmentInfo A) {
         AppointmentWapper appointment = AppointmentWapper.getInstance();
-        for (int i = 0; i < appointment.GetAppointmentList().size(); i++) {
+        for (int i = 0; i < appointment.GetAppointmentList().size(); i++)
+        {
             AppointmentInfo AExist = appointment.GetAppointmentList().get(i);
-            //check if there is exist appointment in this date
-            if ((AExist.getDay().equals(A.getDay())) && (AExist.getMonth().equals(A.getMonth())) && (AExist.getYear().equals(A.getYear()))) {
-                //check if the choose hour for haircut don't fall on exist appointment hour
-                if (AExist.getHour().equals(A.getHour())) {
-                    Error = "Try different hour - this hour is not available";
-                    return false;
-                }
-                String SplitTakenStartHour = splitFunc(AExist.getHour());
-                int takenStartHour = Integer.parseInt(SplitTakenStartHour);
+            // check the info just for the same hair salon code == specific hair salon
+            if (AExist.getHairSalonCode().equals(A.getHairSalonCode())) {
+                //check if there is exist appointment in this date
+                if ((AExist.getDay().equals(A.getDay())) && (AExist.getMonth().equals(A.getMonth())) && (AExist.getYear().equals(A.getYear()))) {
+                    //check if the choose hour for haircut don't fall on exist appointment hour
+                    if (AExist.getHour().equals(A.getHour())) {
+                        Error = "Try different hour - this hour is not available";
+                        return false;
+                    }
+                    //do casting from string to int + split the string hour without the ":"
+                    String SplitTakenStartHour = splitHour(AExist.getHour());
+                    int takenStartHour = Integer.parseInt(SplitTakenStartHour);
 
-                String SplitTakenFinishHour = splitFunc(AExist.getEndOfTheAppoint());
-                int takenFinishHour = Integer.parseInt(SplitTakenFinishHour);
+                    String SplitTakenFinishHour = splitHour(AExist.getEndOfTheAppoint());
+                    int takenFinishHour = Integer.parseInt(SplitTakenFinishHour);
 
-                String SplitStartHour = splitFunc(A.getHour());
-                int startHour = Integer.parseInt(SplitStartHour);
+                    String SplitStartHour = splitHour(A.getHour());
+                    int startHour = Integer.parseInt(SplitStartHour);
 
-                String SplitFinishHour = splitFunc(A.getEndOfTheAppoint());
-                int finishHour = Integer.parseInt(SplitFinishHour);
+                    String SplitFinishHour = splitHour(A.getEndOfTheAppoint());
+                    int finishHour = Integer.parseInt(SplitFinishHour);
 
-                //check if the choose hour for haircut don't fall between exist appointment
-                if ((takenStartHour < startHour) && (startHour < takenFinishHour)) {
-                    Error = "This hour is not available try " + AExist.getEndOfTheAppoint() + " it may be available";
-                    return false;
-                }
-                //check if the choose hour for haircut is not to much long and fall on start exist appointment hour
-                if (finishHour == takenStartHour+1) {
-                    Error = "Your appointment is too long for this hour,try different hour";
-                    return false;
+                    //check if the choose hour for haircut don't fall between exist appointment
+                    if ((takenStartHour < startHour) && (startHour < takenFinishHour)) {
+                        Error = "This hour is not available try " + AExist.getEndOfTheAppoint() + " it may be available";
+                        return false;
+                    }
+                    //check if the choose hour for haircut is not to much long and fall on start exist appointment hour
+                    if (finishHour == takenStartHour + 1) {
+                        Error = "Your appointment is too long for this hour,try different hour";
+                        return false;
+                    }
                 }
             }
         }
@@ -240,13 +248,121 @@ public class MainPage extends AppCompatActivity {
 
     }
     //split the hour
-    public String splitFunc(String S)
+    public String splitHour(String S)
     {
         String currentString = S;
         String[] separated = currentString.split(":");
         String num =  separated[0]; // this will contain the number
 
         return num;
+    }
+
+    //check if the date is legal return true if it does
+    public boolean checkIfLegalDate(String day,String month,String year,String hour)
+    {
+
+        //CHECK WITH CORRECT DATE - OF THE COMPUTER
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/ G /HH:mm:ss z");
+        String currentDateAndTime = sdf.format(new Date());
+
+        // SPLIT THE DATE AND HOUR
+        String S = currentDateAndTime;
+        String[] separated = S.split("/");
+        String currentYear =  separated[0]; // this will contain the year
+        String currentMonth = separated[1]; // this will contain the month
+        String currentDay = separated[2]; // this will contain the day
+        String temp = separated[4]; //this will contain the hour
+        String currentHour = splitHour(temp); //this is the hour without ":" just the first one
+
+        // DO CASTING FROM STRING TO INT
+        int IntCurrentYear = Integer.parseInt(currentYear);
+        int IntCurrentMonth = Integer.parseInt(currentMonth);
+        int IntCurrentDay = Integer.parseInt(currentDay);
+        int IntCurrentHour = Integer.parseInt(currentHour);
+
+        int checkDay =  Integer.parseInt(day);
+        int checkMonth = Integer.parseInt(month);
+        int checkYear = Integer.parseInt(year);
+        String splitToHour = splitHour(hour);
+        int checkHour = Integer.parseInt(splitToHour);
+
+        //ALL THE CHECKS - RETURN FALSE IF THE DATE OR HOUR AS PASSED
+        if ((IntCurrentYear>checkYear))
+        {
+            Error ="this year passed, change the year ";
+            return false;
+        }
+        if ((IntCurrentYear == checkYear))
+        {
+            if(checkMonth<IntCurrentMonth)
+            {
+                Error ="this month passed, change the month ";
+                return false;
+            }
+            if(checkMonth==IntCurrentMonth)
+            {
+                if(checkDay<IntCurrentDay)
+                {
+                    Error ="this day passed, change the day ";
+                    return false;
+                }
+                if(checkDay==IntCurrentDay)
+                {
+                    if(checkHour<IntCurrentHour)
+                    {
+                        Error ="this hour passed, change the hour ";
+                        return false;
+                    }
+                }
+            }
+        }
+
+        // AFTER CHECKING WITH THE CORRECT DATE - CHECK IF THE DAYS & MONTHS THAT FILLED ARE LEGAL
+        if(month.equals("4"))
+        {
+            if(day.equals("31")){
+                Error = "In month April there is only 30 days, please choose other day";
+                return false;
+            }
+        }
+        if(month.equals("6"))
+        {
+            if(day.equals("31")){
+                Error = "In month June there is only 30 days, please choose other day";
+                return false;
+            }
+        }
+        if(month.equals("9"))
+        {
+            if(day.equals("31")){
+                Error = "In month September there is only 30 days, please choose other day";
+                return false;
+            }
+        }
+        if(month.equals("11"))
+        {
+            if(day.equals("31")){
+                Error = "In month November there is only 30 days, please choose other day";
+                return false;
+            }
+        }
+        if(month.equals("2"))
+        {
+            if((day.equals("31"))||(day.equals("30"))||(day.equals("29")))
+
+            {
+                Error = "In month February there is only 28 days, please choose other day";
+                return false;
+            }
+        }
+
+        return true;
+    }
+     //if the client didn't change the "choose" filled
+    public void chooseError() {
+        //cant make appointment send Error message respectively
+        Toast.makeText(MainPage.this, "You did not fill in all the details and left a choose" ,
+                Toast.LENGTH_SHORT).show();
     }
 }
 
