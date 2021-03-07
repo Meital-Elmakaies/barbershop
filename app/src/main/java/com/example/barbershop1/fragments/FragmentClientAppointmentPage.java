@@ -166,32 +166,38 @@ public class FragmentClientAppointmentPage extends Fragment {
                 String dayAppoin =  dateDay.getSelectedItem().toString();
                 String monthAppoin =  dateMonth.getSelectedItem().toString();
                 String HairChoose = haircutChoose.getSelectedItem().toString();
-                if(HairChoose.equals("woman haircut"))
-                {
-                    String splitHour = splitFunc(hourAppoin);
-                    int hourInt = Integer.parseInt(splitHour);
-                         hourInt = hourInt+2;
-                    String temp =  Integer.toString(hourInt);
-                    endOfTheAppoint = temp + ":00";
-                }
-                if(HairChoose.equals("man haircut"))
-                {
-                    String splitHour = splitFunc(hourAppoin);
-                    int hourInt = Integer.parseInt(splitHour);
-                    hourInt = hourInt+1;
-                    String temp =  Integer.toString(hourInt);
-                    endOfTheAppoint = temp + ":00";
-                }
 
-                AppointmentInfo A = new AppointmentInfo(dayAppoin,monthAppoin,yearAppoin,hourAppoin,HairChoose,endOfTheAppoint);
-                MainPage mainPage = (MainPage) getActivity();
-                mainPage.makeAppointmentToClient(A);
+                 //check if the client fill all and did not left a "choose"
+                if(!((HairChoose.equals("choose"))||(dayAppoin.equals("choose"))||(monthAppoin.equals("choose"))||(yearAppoin.equals("choose"))||(hourAppoin.equals("choose")))) {
 
+                    // split the hour without ":" and casting to int for add more 2 hours to the end of the appointment
+                    if (HairChoose.equals("woman haircut")) {
+                        String splitHour = splitFunc(hourAppoin);
+                        int hourInt = Integer.parseInt(splitHour);
+                        hourInt = hourInt + 2;
+                        String temp = Integer.toString(hourInt);
+                        endOfTheAppoint = temp + ":00";
+                    }
+                    // split the hour without ":" and casting to int for add more 2 hours to the end of the appointment
+                    if (HairChoose.equals("man haircut")) {
+                        String splitHour = splitFunc(hourAppoin);
+                        int hourInt = Integer.parseInt(splitHour);
+                        hourInt = hourInt + 1;
+                        String temp = Integer.toString(hourInt);
+                        endOfTheAppoint = temp + ":00";
+                    }
+                    // make an object and then send to make appointment - there will be checks if its available and legal date
+                    AppointmentInfo A = new AppointmentInfo(dayAppoin, monthAppoin, yearAppoin, hourAppoin, HairChoose, endOfTheAppoint);
+                    MainPage mainPage = (MainPage) getActivity();
+                    mainPage.makeAppointmentToClient(A);
+                }
+                else{
+                    // if he left a "choose" and did not fill all the details we need then it send a error message
+                    MainPage mainPage = (MainPage) getActivity();
+                    mainPage.chooseError();
+                }
             }
         });
-
-
-
 
         return view;
     }
