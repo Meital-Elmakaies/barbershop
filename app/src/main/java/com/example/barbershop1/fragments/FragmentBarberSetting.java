@@ -12,7 +12,14 @@ import android.widget.Button;
 
 import com.example.barbershop1.R;
 import com.example.barbershop1.activity.MainPage;
+import com.example.barbershop1.classes.BarberCalendar;
+import com.example.barbershop1.classes.DateCal;
+import com.example.barbershop1.classes.DatesType;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,8 +28,8 @@ import com.google.android.material.datepicker.MaterialDatePicker;
  */
 public class FragmentBarberSetting extends Fragment {
 
-    private Button mDatePickerBtn;
-    private Button mDatePickerBtn1;
+    private Button mDatePickerBtnSickDay;
+    private Button mDatePickerBtnOffDay;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -70,9 +77,10 @@ public class FragmentBarberSetting extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_barber_setting, container, false);
 
-        mDatePickerBtn = view.findViewById(R.id.sick_days_btn);
-        mDatePickerBtn1 = view.findViewById(R.id.free_day_Btn);
-        DatePickerShow(mDatePickerBtn,mDatePickerBtn1);
+        mDatePickerBtnSickDay = view.findViewById(R.id.sick_days_btn);
+        mDatePickerBtnOffDay = view.findViewById(R.id.free_day_Btn);
+        DatePickerShow(mDatePickerBtnSickDay,mDatePickerBtnOffDay);
+
 
         Button b = view.findViewById(R.id.WorkHoursBtn);
 
@@ -88,7 +96,7 @@ public class FragmentBarberSetting extends Fragment {
         return view;
     }
 
-    public void DatePickerShow(Button mDatePickerBtn,Button mDatePickerBtn1)
+    public void DatePickerShow(Button mDatePickerBtnSickDay,Button mDatePickerBtnOffDay)
     {
         //date picker sick days
         MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
@@ -100,16 +108,92 @@ public class FragmentBarberSetting extends Fragment {
         builder.setTitleText("Select a Date");
         MaterialDatePicker materialDatePicker1 =builder1.build();
 
-        mDatePickerBtn.setOnClickListener(new View.OnClickListener() {
+
+
+        //If you clicked the sick days button, take the data you entered
+        mDatePickerBtnSickDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 materialDatePicker.show(getFragmentManager(),"DATE_PICKER");
+                materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Pair<Long, Long>>() {
+                    @Override public void onPositiveButtonClick(Pair<Long,Long> selection) {
+                        Long startDateEpochMili = selection.first;
+                        Date startDateObject = new Date(startDateEpochMili);
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(startDateObject);
+                        int startDay= cal.get(Calendar.DAY_OF_MONTH);
+                        int startMonth= cal.get(Calendar.MONTH)+1;// Calendar is from 0->11 so December = 11
+                        int startYear = cal.get(Calendar.YEAR);
+                        /* => Work with strings
+                        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                        String dateStartString= format.format(startDateObject);
+                        */
+                        Long endDateEpochMili = selection.second;
+                        Date endDateObject =  new Date(endDateEpochMili);
+                        cal.setTime(endDateObject);
+                        int endDay = cal.get(Calendar.DAY_OF_MONTH);
+                        int endMonth = cal.get(Calendar.MONTH)+1;
+                        int endYear =  cal.get(Calendar.YEAR);
+
+                        //convert int to string
+                        String  sDay = String.valueOf(startDay);
+                        String  sMonth= String.valueOf(startMonth);
+                        String  sYear = String.valueOf(startYear);
+                        String  eDay = String.valueOf(endDay);
+                        String  eMonth = String.valueOf(endMonth);
+                        String  eYear = String.valueOf(endYear);
+
+                        //Create two date objects
+                        DateCal startDateCal = new DateCal(sDay,sMonth,sYear);
+                        DateCal endDateCal = new DateCal(eDay,eMonth,eYear);
+
+                        MainPage mainPage = (MainPage) getActivity();
+                        mainPage.changesInCalendar( startDateCal, endDateCal , DatesType.SICK_DAYS);
+
+                    }
+                });
             }
         });
-        mDatePickerBtn1.setOnClickListener(new View.OnClickListener() {
+
+        mDatePickerBtnOffDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 materialDatePicker1.show(getFragmentManager(),"DATE_PICKER");
+                materialDatePicker1.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Pair<Long, Long>>() {
+                    @Override public void onPositiveButtonClick(Pair<Long,Long> selection) {
+                        Long startDateEpochMili = selection.first;
+                        Date startDateObject = new Date(startDateEpochMili);
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(startDateObject);
+                        int startDay= cal.get(Calendar.DAY_OF_MONTH);
+                        int startMonth= cal.get(Calendar.MONTH)+1;// Calendar is from 0->11 so December = 11
+                        int startYear = cal.get(Calendar.YEAR);
+
+                        Long endDateEpochMili = selection.second;
+                        Date endDateObject =  new Date(endDateEpochMili);
+                        cal.setTime(endDateObject);
+                        int endDay = cal.get(Calendar.DAY_OF_MONTH);
+                        int endMonth = cal.get(Calendar.MONTH)+1;
+                        int endYear =  cal.get(Calendar.YEAR);
+
+                        //convert int to string
+                        String  sDay = String.valueOf(startDay);
+                        String  sMonth= String.valueOf(startMonth);
+                        String  sYear = String.valueOf(startYear);
+                        String  eDay = String.valueOf(endDay);
+                        String  eMonth = String.valueOf(endMonth);
+                        String  eYear = String.valueOf(endYear);
+
+                        //Create two date objects
+                        DateCal startDateCal = new DateCal(sDay,sMonth,sYear);
+                        DateCal endDateCal = new DateCal(eDay,eMonth,eYear);
+
+                        MainPage mainPage = (MainPage) getActivity();
+                        mainPage.changesInCalendar( startDateCal, endDateCal , DatesType.OFF_DAYS);
+
+                    }
+                });
+
             }
         });
 
