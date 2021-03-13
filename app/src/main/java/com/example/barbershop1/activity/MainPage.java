@@ -15,6 +15,10 @@ import android.widget.Toast;
 import com.example.barbershop1.R;
 import com.example.barbershop1.classes.AppointmentInfo;
 import com.example.barbershop1.classes.AppointmentWapper;
+import com.example.barbershop1.classes.BarberCalendar;
+import com.example.barbershop1.classes.BarberCalenderWrapper;
+import com.example.barbershop1.classes.DateCal;
+import com.example.barbershop1.classes.DatesType;
 import com.example.barbershop1.classes.Person;
 import com.example.barbershop1.fragments.FragmentBarberSetting;
 import com.example.barbershop1.fragments.FragmentClientAppointmentPage;
@@ -45,6 +49,7 @@ public class MainPage extends AppCompatActivity {
     private boolean flag;
     private String Error;
     Person loggedPerson;
+
 
 
     // create the Main Page of the app
@@ -381,6 +386,45 @@ public class MainPage extends AppCompatActivity {
         //cant make appointment send Error message respectively
         Toast.makeText(MainPage.this, "You did not fill in all the details and left a choose" ,
                 Toast.LENGTH_SHORT).show();
+    }
+
+    //Calendar changes, entry of sick days or vacation days of a hairdresser
+    public void changesInCalendar(DateCal start , DateCal end , DatesType type) {
+
+        ArrayList<BarberCalendar> barberCalendarInfoArrayList = BarberCalenderWrapper.getInstance().GetBarberCalendarList();
+        String salonCode = loggedPerson.getSalonCode();
+
+        //Run on the array and check if the salon code is already on the list. And if found then update new entries entered
+        for(int i=0 ; i<barberCalendarInfoArrayList.size() ; i++)
+        {
+            if(barberCalendarInfoArrayList.get(i).getHairSalonCode().equals( salonCode)){
+                if(type==DatesType.OFF_DAYS){
+                    barberCalendarInfoArrayList.get(i).setStartDaysOff(start);
+                    barberCalendarInfoArrayList.get(i).setFinishDaysOff(end);
+                    return;
+                }
+                barberCalendarInfoArrayList.get(i).setStartSickDay(start);
+                barberCalendarInfoArrayList.get(i).setFinishSickDay(end);
+                return;
+            }
+        }
+        //If the salon code is not in the list then creates a new object and puts it in the list
+        BarberCalendar newBarberCalendar= new BarberCalendar();
+        newBarberCalendar.setHairSalonCode(loggedPerson.getSalonCode());
+        if(type==DatesType.OFF_DAYS){
+            newBarberCalendar.setStartDaysOff(start);
+            newBarberCalendar.setFinishDaysOff(end);
+        }
+        if(type==DatesType.SICK_DAYS){
+            newBarberCalendar.setStartSickDay(start);
+            newBarberCalendar.setFinishSickDay(end);
+        }
+        barberCalendarInfoArrayList.add(newBarberCalendar);
+
+
+
+
+
     }
 }
 
