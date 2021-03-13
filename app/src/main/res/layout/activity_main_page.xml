@@ -18,17 +18,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.5"
+            android:background="@color/black"
             android:gravity="center"
-            android:textColor="#B36A6A"
-            android:textSize="30sp" />
+            android:textColor="#FFFF"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/welcomeIdPerson"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.5"
+            android:background="@color/black"
             android:gravity="center|center_horizontal"
-            android:textColor="#B36A6A"
+            android:textColor="#FFFF"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -45,10 +48,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.5"
-            android:backgroundTint="#E1CDCD"
+            android:background="@color/black"
+            android:backgroundTint="@color/black"
             android:onClick="LogOutFunc"
             android:text="Log Out"
-            android:textColor="#B36A6A"
+            android:textColor="#FFFFFF"
             android:textSize="24sp"
             android:textStyle="bold" />
 

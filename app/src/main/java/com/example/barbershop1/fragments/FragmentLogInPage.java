@@ -66,6 +66,15 @@ public class FragmentLogInPage extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_log_in_page, container, false);
+        //make white the hint and the text of email
+        EditText emailTextSet = view.findViewById(R.id.emailText);
+        emailTextSet.setHintTextColor(getResources().getColor(R.color.white));
+        emailTextSet.setTextColor(getResources().getColor(android.R.color.white));
+        //make white the hint and the text of email
+        EditText passTextSet = view.findViewById(R.id.passText);
+        passTextSet.setHintTextColor(getResources().getColor(R.color.white));
+        passTextSet.setTextColor(getResources().getColor(android.R.color.white));
+
         // the 3 buttons in the LogIn Page
         Button BarberRegButton = view.findViewById(R.id.barberRegButton);
         Button ClientRegButton = view.findViewById(R.id.clientRegButton);

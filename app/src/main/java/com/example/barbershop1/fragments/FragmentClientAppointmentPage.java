@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -86,10 +87,15 @@ public class FragmentClientAppointmentPage extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_client_appointment_page, container, false);
+
+        EditText emailTextSet = view.findViewById(R.id.emailText);
         //haircut
          haircutChoose = view.findViewById(R.id.haircutSpinnerClientAppoint);
+
         // date
         dateDay = view.findViewById(R.id.daySpinnerClientAppoint);
+
+
         dateMonth = view.findViewById(R.id.monthSpinnerClientAppoint);
         dateYear = view.findViewById(R.id.yearSpinnerClientAppoint);
         //hour
@@ -136,22 +142,22 @@ public class FragmentClientAppointmentPage extends Fragment {
 
 
         //set up hour spinner
-        ArrayAdapter<String> HourAdapter = new ArrayAdapter(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item,Hour);
-        HourAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> HourAdapter = new ArrayAdapter(getActivity().getApplicationContext(), R.layout.selected_item_spinner,Hour);
+        HourAdapter.setDropDownViewResource(R.layout.dropdown_item_spinner);
         hour.setAdapter(HourAdapter);
         //set up date spinner
-        ArrayAdapter<String> DayAdapter = new ArrayAdapter(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item,Day);
-        DayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> DayAdapter = new ArrayAdapter(getActivity().getApplicationContext(),  R.layout.selected_item_spinner,Day);
+        DayAdapter.setDropDownViewResource(R.layout.dropdown_item_spinner);
         dateDay.setAdapter(DayAdapter);
-        ArrayAdapter<String> MonthAdapter = new ArrayAdapter(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item,Month);
-        MonthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> MonthAdapter = new ArrayAdapter(getActivity().getApplicationContext(),  R.layout.selected_item_spinner,Month);
+        MonthAdapter.setDropDownViewResource(R.layout.dropdown_item_spinner);
         dateMonth.setAdapter(MonthAdapter);
-        ArrayAdapter<String> YearAdapter = new ArrayAdapter(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item,Year);
-        YearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> YearAdapter = new ArrayAdapter(getActivity().getApplicationContext(),  R.layout.selected_item_spinner,Year);
+        YearAdapter.setDropDownViewResource(R.layout.dropdown_item_spinner);
         dateYear.setAdapter(YearAdapter);
         //set up haircut spinner
-        ArrayAdapter<String> HaircutAdapter = new ArrayAdapter(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item,HaircutType);
-        HaircutAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> HaircutAdapter = new ArrayAdapter(getActivity().getApplicationContext(),  R.layout.selected_item_spinner,HaircutType);
+        HaircutAdapter.setDropDownViewResource(R.layout.dropdown_item_spinner);
         haircutChoose.setAdapter(HaircutAdapter);
 
 

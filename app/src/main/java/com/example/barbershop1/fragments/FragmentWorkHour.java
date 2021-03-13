@@ -110,38 +110,55 @@ public class FragmentWorkHour extends Fragment {
         spnFriFrom = view.findViewById(R.id.FrifromHourTxt);
         spnFriTo = view.findViewById(R.id.FriToHourTxt);
 
-        List<String> Hour = new ArrayList<>();
-        Hour.add("-משעה:-");
+        List<String> HourFrom = new ArrayList<>();
+        HourFrom.add("From");
         for(int i=1 ; i<=24 ; i++)
         {
             if(i<10)
             {
-                Hour.add("0"+i+":00");
+                HourFrom.add("0"+i+":00");
             }
             else
             {
-                Hour.add(i+":00");
+                HourFrom.add(i+":00");
             }
         }
-        ArrayAdapter<String> HourAdapter = new ArrayAdapter(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item,Hour);
-        HourAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spnSunFrom.setAdapter(HourAdapter);
-        spnSunTo.setAdapter(HourAdapter);
+        List<String> HourTo = new ArrayList<>();
+        HourTo.add("Until");
+        for(int i=1 ; i<=24 ; i++)
+        {
+            if(i<10)
+            {
+                HourTo.add("0"+i+":00");
+            }
+            else
+            {
+                HourTo.add(i+":00");
+            }
+        }
+        ArrayAdapter<String> HourFromAdapter = new ArrayAdapter(getActivity().getApplicationContext(), R.layout.selected_item_spinner,HourFrom);
+        HourFromAdapter.setDropDownViewResource(R.layout.dropdown_item_spinner);
 
-        spnMonFrom.setAdapter(HourAdapter);
-        spnMonTo.setAdapter(HourAdapter);
+        ArrayAdapter<String> HourToAdapter = new ArrayAdapter(getActivity().getApplicationContext(),R.layout.selected_item_spinner,HourTo);
+        HourToAdapter.setDropDownViewResource(R.layout.dropdown_item_spinner);
 
-        spnTuesFrom.setAdapter(HourAdapter);
-        spnTuesTo.setAdapter(HourAdapter);
+        spnSunFrom.setAdapter(HourFromAdapter);
+        spnSunTo.setAdapter(HourToAdapter);
 
-        spnWedFrom.setAdapter(HourAdapter);
-        spnWedTo.setAdapter(HourAdapter);
+        spnMonFrom.setAdapter(HourFromAdapter);
+        spnMonTo.setAdapter(HourToAdapter);
 
-        spnThurFrom.setAdapter(HourAdapter);
-        spnThurTo.setAdapter(HourAdapter);
+        spnTuesFrom.setAdapter(HourFromAdapter);
+        spnTuesTo.setAdapter(HourToAdapter);
 
-        spnFriFrom.setAdapter(HourAdapter);
-        spnFriTo.setAdapter(HourAdapter);
+        spnWedFrom.setAdapter(HourFromAdapter);
+        spnWedTo.setAdapter(HourToAdapter);
+
+        spnThurFrom.setAdapter(HourFromAdapter);
+        spnThurTo.setAdapter(HourToAdapter);
+
+        spnFriFrom.setAdapter(HourFromAdapter);
+        spnFriTo.setAdapter(HourToAdapter);
 
 
 

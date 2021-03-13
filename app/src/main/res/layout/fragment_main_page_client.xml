@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,15 +13,31 @@
         android:layout_weight="1"
         android:orientation="horizontal">
 
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:src="@drawable/titol_serveis" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
         <Button
             android:id="@+id/AppointClientButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:backgroundTint="#E1CDCD"
+            android:background="@color/black"
+            android:backgroundTint="@color/black"
             android:text="Making appointment"
-            android:textColor="#B36A6A"
-            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -35,10 +52,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:backgroundTint="#E1CDCD"
+            android:background="@color/black"
+            android:backgroundTint="@color/black"
             android:text="cancel the appointment"
-            android:textColor="#B36A6A"
-            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
             android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>
