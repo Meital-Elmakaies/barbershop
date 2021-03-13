@@ -32,6 +32,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -265,6 +267,22 @@ public class MainPage extends AppCompatActivity {
     //check if the date is legal return true if it does
     public boolean checkIfLegalDate(String day,String month,String year,String hour)
     {
+        String dtStart = year+"-"+month+"-"+day+"T"+hour+":00Z"; //2010-10-15T09:27:37Z";
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        try {
+            Date date = format.parse(dtStart);
+            System.out.println(date);
+            int numOfDay = date.getDay();
+            System.out.println(numOfDay);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
 
         //CHECK WITH CORRECT DATE - OF THE COMPUTER
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/ G /HH:mm:ss z");

@@ -80,6 +80,38 @@ public class FragmentRegBarberPage extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_reg_barber_page, container, false);
 
+
+        textemail = view.findViewById(R.id.emailBarberRegText);
+        textemail.setHintTextColor(getResources().getColor(R.color.white));
+        textemail.setTextColor(getResources().getColor(android.R.color.white));
+
+        textuserName = view.findViewById(R.id.nameBarberRegText);
+        textuserName.setHintTextColor(getResources().getColor(R.color.white));
+        textuserName.setTextColor(getResources().getColor(android.R.color.white));
+
+        textphone = view.findViewById(R.id.phoneBarberRegText);
+        textphone.setHintTextColor(getResources().getColor(R.color.white));
+        textphone.setTextColor(getResources().getColor(android.R.color.white));
+
+        textcity = view.findViewById(R.id.cityBarberRegText);
+        textcity.setHintTextColor(getResources().getColor(R.color.white));
+        textcity.setTextColor(getResources().getColor(android.R.color.white));
+
+        textnamesalon=view.findViewById(R.id.salonNameBarberRegText);
+        textnamesalon.setHintTextColor(getResources().getColor(R.color.white));
+        textnamesalon.setTextColor(getResources().getColor(android.R.color.white));
+
+        textpassword = view.findViewById(R.id.passBarberRegText);
+        textpassword.setHintTextColor(getResources().getColor(R.color.white));
+        textpassword.setTextColor(getResources().getColor(android.R.color.white));
+
+        textaddress= view.findViewById(R.id.addressBarberRegText);
+        textaddress.setHintTextColor(getResources().getColor(R.color.white));
+        textaddress.setTextColor(getResources().getColor(android.R.color.white));
+
+
+
+
         Button SingUpBarberButton= view.findViewById(R.id.signUpButton);
 
        //click on Sing up button - take the details from the new barber user and save it to the database

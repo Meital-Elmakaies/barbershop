@@ -17,9 +17,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/black"
             android:gravity="center_vertical"
             android:text="Please fill in the details for the appointment:"
-            android:textColor="#B36A6A"
+            android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -35,9 +36,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/black"
             android:gravity="fill"
             android:text="Choose a date:"
-            android:textColor="#B36A6A"
+            android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -53,15 +55,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/black"
             android:gravity="center"
             android:text="day:"
-            android:textColor="#070707" />
+            android:textColor="#FFFFFF" />
 
         <Spinner
             android:id="@+id/daySpinnerClientAppoint"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:spinnerMode="dropdown" />
     </LinearLayout>
 
     <LinearLayout
@@ -75,15 +79,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/black"
             android:gravity="center"
             android:text="month:"
-            android:textColor="#070707" />
+            android:textColor="#FFFFFF" />
 
         <Spinner
             android:id="@+id/monthSpinnerClientAppoint"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            />
 
     </LinearLayout>
 
@@ -98,15 +104,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/black"
             android:gravity="center"
             android:text="year:"
-            android:textColor="#070707" />
+            android:textColor="#FFFFFF" />
 
         <Spinner
             android:id="@+id/yearSpinnerClientAppoint"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+             />
     </LinearLayout>
 
     <LinearLayout
@@ -120,9 +128,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/black"
             android:gravity="fill"
             android:text="Choose a hour:"
-            android:textColor="#B36A6A"
+            android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -137,7 +146,8 @@
             android:id="@+id/hourSpinnerClientAppoint"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+             />
     </LinearLayout>
 
     <LinearLayout
@@ -151,9 +161,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/black"
             android:gravity="fill"
             android:text="Choose a haircut:"
-            android:textColor="#B36A6A"
+            android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -169,7 +180,8 @@
             android:id="@+id/haircutSpinnerClientAppoint"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+             />
     </LinearLayout>
 
     <LinearLayout
@@ -183,9 +195,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:backgroundTint="#E1CDCD"
+            android:background="@color/black"
             android:text="ok"
-            android:textColor="#B36A6A"
+            android:textColor="#FFFFFF"
             android:textSize="24sp"
             android:textStyle="bold" />
     </LinearLayout>

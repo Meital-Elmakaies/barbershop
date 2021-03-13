@@ -75,6 +75,29 @@ public class FragmentRegClientPage extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_reg_client_page, container, false);
+        textemail = view.findViewById(R.id.emailClientRegText);
+        textemail.setHintTextColor(getResources().getColor(R.color.white));
+        textemail.setTextColor(getResources().getColor(android.R.color.white));
+
+        textuserName = view.findViewById(R.id.nameClientRegText);
+        textuserName.setHintTextColor(getResources().getColor(R.color.white));
+        textuserName.setTextColor(getResources().getColor(android.R.color.white));
+
+        textphone = view.findViewById(R.id.phoneClientRegText);
+        textphone.setHintTextColor(getResources().getColor(R.color.white));
+        textphone.setTextColor(getResources().getColor(android.R.color.white));
+
+        textcity = view.findViewById(R.id.cityClientRegText);
+        textcity.setHintTextColor(getResources().getColor(R.color.white));
+        textcity.setTextColor(getResources().getColor(android.R.color.white));
+
+        textsaloncode = view.findViewById(R.id.salonCodeClientRegText);
+        textsaloncode.setHintTextColor(getResources().getColor(R.color.white));
+        textsaloncode.setTextColor(getResources().getColor(android.R.color.white));
+
+        textpassword = view.findViewById(R.id.passClientRegText);
+        textpassword.setHintTextColor(getResources().getColor(R.color.white));
+        textpassword.setTextColor(getResources().getColor(android.R.color.white));
 
         Button SingUpClientButton = view.findViewById(R.id.signUpClientButton);
 

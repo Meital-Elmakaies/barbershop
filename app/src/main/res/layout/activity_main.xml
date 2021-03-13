@@ -8,14 +8,6 @@
     tools:context=".activity.MainActivity">
 
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#E1CDCD"
-        android:text="My Hair salon"
-        android:textSize="36sp" />
-
     <FrameLayout
         android:id="@+id/FragmentFrame"
         android:layout_width="match_parent"
