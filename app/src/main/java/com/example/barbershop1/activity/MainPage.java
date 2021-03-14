@@ -128,6 +128,8 @@ public class MainPage extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         fragmentTransaction.replace(R.id.FragmentMainFrame, new FragmentWorkHour()).addToBackStack(null).commit();
+
+
     }
 
     public void loadAppoinClientFragment() {
@@ -421,9 +423,44 @@ public class MainPage extends AppCompatActivity {
         }
         barberCalendarInfoArrayList.add(newBarberCalendar);
 
+    }
 
+    public void changesHours(String fromHour, String toHour) {
 
+        ArrayList<BarberCalendar> barberCalendarInfoArrayList = BarberCalenderWrapper.getInstance().GetBarberCalendarList();
+        String salonCode = loggedPerson.getSalonCode();
 
+        //Run on the array and check if the salon code is already on the list. And if found then update new entries entered
+        for(int i=0 ; i<barberCalendarInfoArrayList.size() ; i++)
+        {
+            if(barberCalendarInfoArrayList.get(i).getHairSalonCode().equals( salonCode)){
+
+                    barberCalendarInfoArrayList.get(i).setStartTime(fromHour);
+                    barberCalendarInfoArrayList.get(i).setEndTime(toHour);
+                    return;
+            }
+        }
+
+        BarberCalendar newBarberCalendar= new BarberCalendar();
+        newBarberCalendar.setHairSalonCode(loggedPerson.getSalonCode());
+        newBarberCalendar.setStartTime(fromHour);
+        newBarberCalendar.setEndTime(toHour);
+
+        barberCalendarInfoArrayList.add(newBarberCalendar);
+        SetWorkHoursTitle();
+
+    }
+
+    public void SetWorkHoursTitle(){
+        BarberCalenderWrapper workHours = BarberCalenderWrapper.getInstance();
+
+        for (int i = 0; i < workHours.GetBarberCalendarList().size(); i++) {
+            if (workHours.GetBarberCalendarList().get(i).getHairSalonCode().equals(loggedPerson.getSalonCode())) {
+                BarberCalendar chooseWorkHours = workHours.GetBarberCalendarList().get(i);
+                String Hours ="from " + chooseWorkHours.getStartTime() + " to " + chooseWorkHours.getEndTime();
+                nameTV.setText(loggedPerson.getName() + " your working hours are " + Hours);
+            }
+        }
 
     }
 }

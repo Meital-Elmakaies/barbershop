@@ -8,9 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import com.example.barbershop1.R;
+import com.example.barbershop1.activity.MainPage;
+import com.example.barbershop1.classes.DatesType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,28 +26,8 @@ import java.util.List;
 public class FragmentWorkHour extends Fragment {
 
     // Sunday
-    private Spinner spnSunFrom;
-    private Spinner spnSunTo;
-
-    // Monday
-    private Spinner spnMonFrom;
-    private Spinner spnMonTo;
-
-    //Tuesday
-    private Spinner spnTuesFrom;
-    private Spinner spnTuesTo;
-
-    //Wednesday
-    private Spinner spnWedFrom;
-    private Spinner spnWedTo;
-
-    //Thursday
-    private Spinner spnThurFrom;
-    private Spinner spnThurTo;
-
-    //Friday
-    private Spinner spnFriFrom;
-    private Spinner spnFriTo;
+    private Spinner spnFrom;
+    private Spinner spnTo;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -92,23 +75,10 @@ public class FragmentWorkHour extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_work_hour, container, false);
 
-        spnSunFrom = view.findViewById(R.id.SunFromHourTxt);
-        spnSunTo = view.findViewById(R.id.SunToHourTxt);
 
-        spnMonFrom = view.findViewById(R.id.MonfromHourTxt);
-        spnMonTo = view.findViewById(R.id.MonToHourTxt);
+        spnTo = view.findViewById(R.id.ToHourTxt);
+        spnFrom = view.findViewById(R.id.FromHourTxt);
 
-        spnTuesFrom = view.findViewById(R.id.TuesfromHourTxt);
-        spnTuesTo = view.findViewById(R.id.TuesToHourTxt);
-
-        spnWedFrom = view.findViewById(R.id.WedfromHourTxt);
-        spnWedTo = view.findViewById(R.id.WedToHourTxt);
-
-        spnThurFrom = view.findViewById(R.id.ThurfromHourTxt);
-        spnThurTo = view.findViewById(R.id.ThurToHourTxt);
-
-        spnFriFrom = view.findViewById(R.id.FrifromHourTxt);
-        spnFriTo = view.findViewById(R.id.FriToHourTxt);
 
         List<String> HourFrom = new ArrayList<>();
         HourFrom.add("From");
@@ -142,26 +112,25 @@ public class FragmentWorkHour extends Fragment {
         ArrayAdapter<String> HourToAdapter = new ArrayAdapter(getActivity().getApplicationContext(),R.layout.selected_item_spinner,HourTo);
         HourToAdapter.setDropDownViewResource(R.layout.dropdown_item_spinner);
 
-        spnSunFrom.setAdapter(HourFromAdapter);
-        spnSunTo.setAdapter(HourToAdapter);
+        spnFrom.setAdapter(HourFromAdapter);
+        spnTo.setAdapter(HourToAdapter);
 
-        spnMonFrom.setAdapter(HourFromAdapter);
-        spnMonTo.setAdapter(HourToAdapter);
+        //Click Update Work Hours
+        Button makeChange = view.findViewById(R.id.UpdateButton);
+        makeChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String fromHour =  spnFrom.getSelectedItem().toString();
+                String toHour =  spnTo.getSelectedItem().toString();
 
-        spnTuesFrom.setAdapter(HourFromAdapter);
-        spnTuesTo.setAdapter(HourToAdapter);
+                MainPage mainPage = (MainPage) getActivity();
+                mainPage.changesHours(fromHour,toHour);
 
-        spnWedFrom.setAdapter(HourFromAdapter);
-        spnWedTo.setAdapter(HourToAdapter);
-
-        spnThurFrom.setAdapter(HourFromAdapter);
-        spnThurTo.setAdapter(HourToAdapter);
-
-        spnFriFrom.setAdapter(HourFromAdapter);
-        spnFriTo.setAdapter(HourToAdapter);
-
-
+            }
+        });
 
         return view;
     }
+
+
 }
