@@ -508,7 +508,7 @@ public class MainPage extends AppCompatActivity {
 
 
                 // check the client appointment hour with barber works hours.
-                if ((IntClientStartHour < IntBarberStartHour) || (IntBarberStartHour > IntBarberFinishHour) || (IntBarberStartHour == IntBarberFinishHour)) {
+                if ((IntClientStartHour < IntBarberStartHour) || (IntClientStartHour > IntBarberFinishHour) ) {
                     Error = "the barber open the salon hair at: " + barber.getStartTime() + " and close at" + barber.getEndTime() + " try different hour";
                     ReasonCancel = "the barber change his hour work";
                     return false;
@@ -552,36 +552,14 @@ public class MainPage extends AppCompatActivity {
                 int yearClient = Integer.parseInt(year);
 
 
-                // same year at the start
-                if ((yearClient == barberDayoffYearStart)) {
-                    // same month at the finish
-                    if (monthClient == barberDayoffMonthFinish) {
-                        if ((dayClient < barberDayoffDayFinish) || (dayClient == barberDayoffDayFinish)) {
+
+                if ((yearClient == barberDayoffYearStart) && (monthClient==barberDayoffMonthStart))
+                {
+                        if ((dayClient <= barberDayoffDayFinish) && (dayClient >= barberDayoffDayStart)) {
                             Error = "The barber is on his day off try after: " + barberDayoffDayFinish + "/" + barberDayoffMonthFinish + "/" + barberDayoffYearFinish;
                             ReasonCancel = "the barber in a day off";
                             return false;
                         }
-                    }
-                    // same month at the start
-                    if (monthClient == barberDayoffMonthStart) {
-                        if (dayClient == barberDayoffDayStart) {
-                            Error = "The barber is on his day off try after: " + barberDayoffDayFinish + "/" + barberDayoffMonthFinish + "/" + barberDayoffYearFinish;
-                            ReasonCancel = "the barber in a day off";
-                            return false;
-                        }
-                    }
-                }
-                if ((yearClient == barberDayoffYearFinish)) {
-
-                    if (monthClient == barberDayoffMonthFinish) {
-                        if ((dayClient < barberDayoffDayFinish) || (dayClient == barberDayoffDayFinish)) {
-                            Error = "The barber is on his day off try after: " + barberDayoffDayFinish + "/" + barberDayoffMonthFinish + "/" + barberDayoffYearFinish;
-                            ReasonCancel = "the barber in a day off";
-
-                            return false;
-                        }
-
-                    }
                 }
 
 
@@ -612,40 +590,14 @@ public class MainPage extends AppCompatActivity {
                 int barberYearSickFinish = Integer.parseInt(yearSickFinish);
 
 
-                // same year at the start
-                if ((yearClient == barberYearSickStart)) {
-                    // same month at the finish
-                    if (monthClient == barberMonthSickFinish) {
-                        if ((dayClient < barberDaySickFinish) || (dayClient == barberDaySickFinish)) {
-                            Error = "The barber is sick try after: " + barberDaySickFinish + "/" + barberMonthSickFinish + "/" + barberYearSickFinish;
-                            ReasonCancel = "the barber is sick";
-                            return false;
-                        }
-                    }
-                    // same month at the start
-                    if (monthClient == barberMonthSickStart) {
-                        if (dayClient == barberDaySickStart) {
-                            Error = "The barber is sick try after: " + barberDaySickFinish + "/" + barberMonthSickFinish + "/" + barberYearSickFinish;
-                            ReasonCancel = "the barber is sick";
-
-                            return false;
-                        }
-                    }
-                }
-                //same year
-                if ((yearClient == barberYearSickFinish)) {
-
-                    if (monthClient == barberMonthSickFinish) {
-                        if ((dayClient < barberDaySickFinish) || (dayClient == barberDaySickFinish)) {
-                            Error = "The barber is sick try after: " + barberDaySickFinish + "/" + barberMonthSickFinish + "/" + barberYearSickFinish;
-                            ReasonCancel = "the barber is sick";
-                            return false;
-
-                        }
+                if ((yearClient == barberDaySickStart) && (monthClient==barberMonthSickStart)) {
+                    if ((dayClient <= barberDaySickFinish) && (dayClient >= barberDaySickStart)) {
+                        Error = "The barber is sick try after: " + barberDaySickFinish + "/" + barberMonthSickFinish + "/" + barberYearSickFinish;
+                        ReasonCancel = "the barber is sick";
+                        return false;
 
                     }
                 }
-
             }
 
         }
@@ -657,13 +609,5 @@ public class MainPage extends AppCompatActivity {
         fragmentTransaction.replace(R.id.FragmentMainFrame, new FragmentQueueList()).addToBackStack(null).commit();
     }
 
-    public void loadAppointment() {
-
-        AppointmentWapper appointment = AppointmentWapper.getInstance();
-
-        for (int i = 0; i < appointment.GetAppointmentList().size(); i++) {
-
-        }
     }
-}
 
