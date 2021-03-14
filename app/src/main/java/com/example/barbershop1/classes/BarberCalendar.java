@@ -7,6 +7,8 @@ public class BarberCalendar {
     private DateCal StartDaysOff;
     private DateCal FinishDaysOff;
     private  String hairSalonCode;
+    private String startTime;
+    private String endTime;
 
 
     public BarberCalendar(DateCal StartSickDay, DateCal FinishSickDay, DateCal StartDaysOff, DateCal FinishDaysOff){
@@ -58,5 +60,21 @@ public class BarberCalendar {
 
     public void setHairSalonCode(String hairSalonCode) {
         this.hairSalonCode = hairSalonCode;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 }
