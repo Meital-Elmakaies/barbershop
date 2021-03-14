@@ -49,6 +49,7 @@ public class MainPage extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private boolean flag;
     private String Error;
+    private String ReasonCancel;
     Person loggedPerson;
 
 
@@ -151,16 +152,19 @@ public class MainPage extends AppCompatActivity {
     public void makeAppointmentToClient(AppointmentInfo A) {
         A.setName(loggedPerson.getName());
         A.setHairSalonCode(loggedPerson.getSalonCode());
-        //check if the date is legal before the others checks
-        if(checkIfLegalDate(A.getDay(),A.getMonth(),A.getYear(),A.getHour())) {
-            //check if the date that the client choose available in the Hair salon
-            if (checkIfTheDateIsAvailable(A)) {
-                ArrayList<AppointmentInfo> appointmentInfoArrayList = AppointmentWapper.getInstance().GetAppointmentList();
-                appointmentInfoArrayList.add(A);
-                SetAppointmentTitle();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.FragmentMainFrame, new FragmentMainPageClient()).addToBackStack(null).commit();
-                return;
+        if(!(CheckWithBarber(A)))
+        {
+            //check if the date is legal before the others checks
+            if (checkIfLegalDate(A.getDay(), A.getMonth(), A.getYear(), A.getHour())) {
+                //check if the date that the client choose available in the Hair salon
+                if (checkIfTheDateIsAvailable(A)) {
+                    ArrayList<AppointmentInfo> appointmentInfoArrayList = AppointmentWapper.getInstance().GetAppointmentList();
+                    appointmentInfoArrayList.add(A);
+                    SetAppointmentTitle();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.FragmentMainFrame, new FragmentMainPageClient()).addToBackStack(null).commit();
+                    return;
+                }
             }
         }
         //cant make appointment send Error message respectively
@@ -176,14 +180,30 @@ public class MainPage extends AppCompatActivity {
         AppointmentWapper appointment = AppointmentWapper.getInstance();
 
         for (int i = 0; i < appointment.GetAppointmentList().size(); i++) {
-            if (appointment.GetAppointmentList().get(i).getName().equals(loggedPerson.getName())) {
-                AppointmentInfo chooseAppointment = appointment.GetAppointmentList().get(i);
-                String FullDate = chooseAppointment.getDay() + "/" + chooseAppointment.getMonth() + "/" + chooseAppointment.getYear() + " at hour: " + chooseAppointment.getHour();
-                nameTV.setText(loggedPerson.getName() + " your next appointment is on date: " + FullDate);
+            if (appointment.GetAppointmentList().get(i).getName().equals(loggedPerson.getName()))
+            { AppointmentInfo chooseAppointment = appointment.GetAppointmentList().get(i);
+                 //check always update
+                if(!(CheckWithBarber(chooseAppointment)))
+                {
+                    String FullDate = chooseAppointment.getDay() + "/" + chooseAppointment.getMonth() + "/" + chooseAppointment.getYear() + " at hour: " + chooseAppointment.getHour();
+                    nameTV.setText(loggedPerson.getName() + " your next appointment is on date: " + FullDate);
+                    break;
+                }
+                if(CheckWithBarber(chooseAppointment))
+                {
+
+                    nameTV.setText(loggedPerson.getName() + " Sorry your appointment is Canceled because "+ReasonCancel);
+                    cancelAppointment();
+
+                    break;
+                }
+
+                }
+
             }
         }
 
-    }
+
 
     //cancel the appointment and delete from the list
     public void cancelAppointment() {
@@ -425,7 +445,7 @@ public class MainPage extends AppCompatActivity {
         barberCalendarInfoArrayList.add(newBarberCalendar);
 
     }
-
+      // func to barber
     public void changesHours(String fromHour, String toHour) {
 
         ArrayList<BarberCalendar> barberCalendarInfoArrayList = BarberCalenderWrapper.getInstance().GetBarberCalendarList();
@@ -451,7 +471,7 @@ public class MainPage extends AppCompatActivity {
         SetWorkHoursTitle();
 
     }
-
+     // func to barber
     public void SetWorkHoursTitle(){
         BarberCalenderWrapper workHours = BarberCalenderWrapper.getInstance();
 
@@ -465,6 +485,172 @@ public class MainPage extends AppCompatActivity {
 
     }
 
+    public boolean CheckWithBarber(AppointmentInfo A) {
+        BarberCalenderWrapper barbers = BarberCalenderWrapper.getInstance();
+
+        for (int i = 0; i < barbers.GetBarberCalendarList().size(); i++) {
+            BarberCalendar barber = barbers.GetBarberCalendarList().get(i);
+
+            if (barber.getHairSalonCode().equals(A.getHairSalonCode())) {
+
+                // convert string to int for the checks
+                String SplitStartHour = splitHour(A.getHour());
+                int IntClientStartHour = Integer.parseInt(SplitStartHour);
+
+                String SplitFinishHour = splitHour(A.getEndOfTheAppoint());
+                int IntClientFinishHour = Integer.parseInt(SplitFinishHour);
+
+                String splitStartHour = splitHour(barber.getStartTime());
+                int IntBarberStartHour = Integer.parseInt(splitStartHour);
+
+                String splitFinishHour = splitHour(barber.getEndTime());
+                int IntBarberFinishHour = Integer.parseInt(splitFinishHour);
+
+
+                // check the client appointment hour with barber works hours.
+                if ((IntClientStartHour < IntBarberStartHour) || (IntBarberStartHour > IntBarberFinishHour) || (IntBarberStartHour == IntBarberFinishHour)) {
+                    Error = "the barber open the salon hair at: " + barber.getStartTime() + " and close at" + barber.getEndTime() + " try different hour";
+                    ReasonCancel = "the barber change his hour work";
+                    return false;
+                }
+                if (IntClientFinishHour > IntBarberFinishHour) {
+                    Error = "your appointment is too long the barber close at" + barber.getEndTime() + " try an hour early";
+                    ReasonCancel = "the barber change his hour work";
+                    return false;
+                }
+
+                //check the barber dayoff date with client
+                DateCal barberDayoffStart = barber.getStartDaysOff();
+
+                String dayStart = barberDayoffStart.getDay();
+                int barberDayoffDayStart = Integer.parseInt(dayStart);
+
+                String monthStart = barberDayoffStart.getMonth();
+                int barberDayoffMonthStart = Integer.parseInt(monthStart);
+
+                String yearStart = barberDayoffStart.getYear();
+                int barberDayoffYearStart = Integer.parseInt(yearStart);
+
+                DateCal barberDayoffFinish = barber.getFinishDaysOff();
+
+                String dayFinish = barberDayoffFinish.getDay();
+                int barberDayoffDayFinish = Integer.parseInt(dayFinish);
+
+                String monthFinish = barberDayoffFinish.getMonth();
+                int barberDayoffMonthFinish = Integer.parseInt(monthFinish);
+
+                String yearFinish = barberDayoffFinish.getYear();
+                int barberDayoffYearFinish = Integer.parseInt(yearFinish);
+
+                String day = A.getDay();
+                int dayClient = Integer.parseInt(day);
+
+                String month = A.getMonth();
+                int monthClient = Integer.parseInt(month);
+
+                String year = A.getYear();
+                int yearClient = Integer.parseInt(year);
+
+
+                // same year at the start
+                if ((yearClient == barberDayoffYearStart)) {
+                    // same month at the finish
+                    if (monthClient == barberDayoffMonthFinish) {
+                        if ((dayClient < barberDayoffDayFinish) || (dayClient == barberDayoffDayFinish)) {
+                            Error = "The barber is on his day off try after: " + barberDayoffDayFinish + "/" + barberDayoffMonthFinish + "/" + barberDayoffYearFinish;
+                            ReasonCancel = "the barber in a day off";
+                            return false;
+                        }
+                    }
+                    // same month at the start
+                    if (monthClient == barberDayoffMonthStart) {
+                        if (dayClient == barberDayoffDayStart) {
+                            Error = "The barber is on his day off try after: " + barberDayoffDayFinish + "/" + barberDayoffMonthFinish + "/" + barberDayoffYearFinish;
+                            ReasonCancel = "the barber in a day off";
+                            return false;
+                        }
+                    }
+                }
+                if ((yearClient == barberDayoffYearFinish)) {
+
+                    if (monthClient == barberDayoffMonthFinish) {
+                        if ((dayClient < barberDayoffDayFinish) || (dayClient == barberDayoffDayFinish)) {
+                            Error = "The barber is on his day off try after: " + barberDayoffDayFinish + "/" + barberDayoffMonthFinish + "/" + barberDayoffYearFinish;
+                            ReasonCancel = "the barber in a day off";
+
+                            return false;
+                        }
+
+                    }
+                }
+
+
+                //check the barber sick date with client
+
+                //start sick
+                DateCal barberSickStart = barber.getStartSickDay();
+
+                String daySickStart = barberSickStart.getDay();
+                int barberDaySickStart = Integer.parseInt(daySickStart);
+
+                String monthSickStart = barberSickStart.getMonth();
+                int barberMonthSickStart = Integer.parseInt(monthSickStart);
+
+                String yearSickStart = barberSickStart.getYear();
+                int barberYearSickStart = Integer.parseInt(yearSickStart);
+
+                //finish sick
+                DateCal barberSickFinish = barber.getFinishSickDay();
+
+                String daySickFinish = barberSickFinish.getDay();
+                int barberDaySickFinish = Integer.parseInt(daySickFinish);
+
+                String monthSickFinish = barberSickFinish.getMonth();
+                int barberMonthSickFinish = Integer.parseInt(monthSickFinish);
+
+                String yearSickFinish = barberSickFinish.getYear();
+                int barberYearSickFinish = Integer.parseInt(yearSickFinish);
+
+
+                // same year at the start
+                if ((yearClient == barberYearSickStart)) {
+                    // same month at the finish
+                    if (monthClient == barberMonthSickFinish) {
+                        if ((dayClient < barberDaySickFinish) || (dayClient == barberDaySickFinish)) {
+                            Error = "The barber is sick try after: " + barberDaySickFinish + "/" + barberMonthSickFinish + "/" + barberYearSickFinish;
+                            ReasonCancel = "the barber is sick";
+                            return false;
+                        }
+                    }
+                    // same month at the start
+                    if (monthClient == barberMonthSickStart) {
+                        if (dayClient == barberDaySickStart) {
+                            Error = "The barber is sick try after: " + barberDaySickFinish + "/" + barberMonthSickFinish + "/" + barberYearSickFinish;
+                            ReasonCancel = "the barber is sick";
+
+                            return false;
+                        }
+                    }
+                }
+                //same year
+                if ((yearClient == barberYearSickFinish)) {
+
+                    if (monthClient == barberMonthSickFinish) {
+                        if ((dayClient < barberDaySickFinish) || (dayClient == barberDaySickFinish)) {
+                            Error = "The barber is sick try after: " + barberDaySickFinish + "/" + barberMonthSickFinish + "/" + barberYearSickFinish;
+                            ReasonCancel = "the barber is sick";
+                            return false;
+
+                        }
+
+                    }
+                }
+
+            }
+
+        }
+        return true;
+    }
     public void loadQueueListBarberFragment() {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -478,7 +664,6 @@ public class MainPage extends AppCompatActivity {
         for (int i = 0; i < appointment.GetAppointmentList().size(); i++) {
 
         }
-
     }
 }
 
