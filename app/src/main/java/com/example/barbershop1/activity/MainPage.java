@@ -485,185 +485,172 @@ public class MainPage extends AppCompatActivity {
 
     }
 
-    public boolean CheckWithBarber(AppointmentInfo A)
-    {
+    public boolean CheckWithBarber(AppointmentInfo A) {
         BarberCalenderWrapper barbers = BarberCalenderWrapper.getInstance();
 
-        for (int i = 0; i < barbers.GetBarberCalendarList().size(); i++)
-        {
-           BarberCalendar barber =  barbers.GetBarberCalendarList().get(i);
+        for (int i = 0; i < barbers.GetBarberCalendarList().size(); i++) {
+            BarberCalendar barber = barbers.GetBarberCalendarList().get(i);
 
-           if (barber.getHairSalonCode().equals(A.getHairSalonCode())){
+            if (barber.getHairSalonCode().equals(A.getHairSalonCode())) {
 
-               // convert string to int for the checks
-               String SplitStartHour = splitHour(A.getHour());
-               int IntClientStartHour = Integer.parseInt(SplitStartHour);
+                // convert string to int for the checks
+                String SplitStartHour = splitHour(A.getHour());
+                int IntClientStartHour = Integer.parseInt(SplitStartHour);
 
-               String SplitFinishHour = splitHour(A.getEndOfTheAppoint());
-               int IntClientFinishHour = Integer.parseInt(SplitFinishHour);
+                String SplitFinishHour = splitHour(A.getEndOfTheAppoint());
+                int IntClientFinishHour = Integer.parseInt(SplitFinishHour);
 
-               String splitStartHour = splitHour(barber.getStartTime());
-               int IntBarberStartHour = Integer.parseInt(splitStartHour);
+                String splitStartHour = splitHour(barber.getStartTime());
+                int IntBarberStartHour = Integer.parseInt(splitStartHour);
 
-               String splitFinishHour = splitHour(barber.getEndTime());
-               int IntBarberFinishHour = Integer.parseInt(splitFinishHour);
-
-
-               // check the client appointment hour with barber works hours.
-               if((IntClientStartHour<IntBarberStartHour)||(IntBarberStartHour>IntBarberFinishHour)||(IntBarberStartHour==IntBarberFinishHour))
-               {
-                   Error = "the barber open the salon hair at: "+barber.getStartTime()+" and close at"+barber.getEndTime()+" try different hour";
-                   ReasonCancel = "the barber change his hour work";
-                   return false;
-               }
-               if(IntClientFinishHour>IntBarberFinishHour){
-                   Error = "your appointment is too long the barber close at"+barber.getEndTime()+ " try an hour early";
-                   ReasonCancel = "the barber change his hour work";
-                   return false;
-               }
-
-               //check the barber dayoff date with client
-               DateCal barberDayoffStart = barber.getStartDaysOff();
-
-               String dayStart =barberDayoffStart.getDay();
-               int barberDayoffDayStart = Integer.parseInt(dayStart);
-
-               String monthStart =barberDayoffStart.getMonth();
-               int barberDayoffMonthStart = Integer.parseInt(monthStart);
-
-               String yearStart =barberDayoffStart.getYear();
-               int barberDayoffYearStart = Integer.parseInt(yearStart);
-
-               DateCal barberDayoffFinish = barber.getFinishDaysOff();
-
-               String dayFinish =barberDayoffFinish.getDay();
-               int barberDayoffDayFinish = Integer.parseInt(dayFinish);
-
-               String monthFinish =barberDayoffFinish.getMonth();
-               int barberDayoffMonthFinish = Integer.parseInt(monthFinish);
-
-               String yearFinish =barberDayoffFinish.getYear();
-               int barberDayoffYearFinish = Integer.parseInt(yearFinish);
-
-               String day = A.getDay();
-               int dayClient = Integer.parseInt(day);
-
-               String month= A.getMonth();
-               int monthClient = Integer.parseInt(month);
-
-               String year = A.getYear();
-               int yearClient = Integer.parseInt(year);
+                String splitFinishHour = splitHour(barber.getEndTime());
+                int IntBarberFinishHour = Integer.parseInt(splitFinishHour);
 
 
+                // check the client appointment hour with barber works hours.
+                if ((IntClientStartHour < IntBarberStartHour) || (IntBarberStartHour > IntBarberFinishHour) || (IntBarberStartHour == IntBarberFinishHour)) {
+                    Error = "the barber open the salon hair at: " + barber.getStartTime() + " and close at" + barber.getEndTime() + " try different hour";
+                    ReasonCancel = "the barber change his hour work";
+                    return false;
+                }
+                if (IntClientFinishHour > IntBarberFinishHour) {
+                    Error = "your appointment is too long the barber close at" + barber.getEndTime() + " try an hour early";
+                    ReasonCancel = "the barber change his hour work";
+                    return false;
+                }
 
-               // same year at the start
-               if((yearClient == barberDayoffYearStart))
-               {
+                //check the barber dayoff date with client
+                DateCal barberDayoffStart = barber.getStartDaysOff();
+
+                String dayStart = barberDayoffStart.getDay();
+                int barberDayoffDayStart = Integer.parseInt(dayStart);
+
+                String monthStart = barberDayoffStart.getMonth();
+                int barberDayoffMonthStart = Integer.parseInt(monthStart);
+
+                String yearStart = barberDayoffStart.getYear();
+                int barberDayoffYearStart = Integer.parseInt(yearStart);
+
+                DateCal barberDayoffFinish = barber.getFinishDaysOff();
+
+                String dayFinish = barberDayoffFinish.getDay();
+                int barberDayoffDayFinish = Integer.parseInt(dayFinish);
+
+                String monthFinish = barberDayoffFinish.getMonth();
+                int barberDayoffMonthFinish = Integer.parseInt(monthFinish);
+
+                String yearFinish = barberDayoffFinish.getYear();
+                int barberDayoffYearFinish = Integer.parseInt(yearFinish);
+
+                String day = A.getDay();
+                int dayClient = Integer.parseInt(day);
+
+                String month = A.getMonth();
+                int monthClient = Integer.parseInt(month);
+
+                String year = A.getYear();
+                int yearClient = Integer.parseInt(year);
+
+
+                // same year at the start
+                if ((yearClient == barberDayoffYearStart)) {
                     // same month at the finish
-                if(monthClient==barberDayoffMonthFinish){
-                    if((dayClient<barberDayoffDayFinish)||(dayClient==barberDayoffDayFinish))
-                       {Error = "The barber is on his day off try after: "+barberDayoffDayFinish+"/"+barberDayoffMonthFinish+"/"+barberDayoffYearFinish;
-                           ReasonCancel = "the barber in a day off";
-                           return false;
-                       }
-                   }
-                // same month at the start
-                   if(monthClient==barberDayoffMonthStart)
-                   {
-                       if(dayClient==barberDayoffDayStart)
-                       {
-                           Error = "The barber is on his day off try after: "+barberDayoffDayFinish+"/"+barberDayoffMonthFinish+"/"+barberDayoffYearFinish;
-                           ReasonCancel = "the barber in a day off";
-                           return false;
-                       }
-                   }
-               }
-               if((yearClient==barberDayoffYearFinish)){
+                    if (monthClient == barberDayoffMonthFinish) {
+                        if ((dayClient < barberDayoffDayFinish) || (dayClient == barberDayoffDayFinish)) {
+                            Error = "The barber is on his day off try after: " + barberDayoffDayFinish + "/" + barberDayoffMonthFinish + "/" + barberDayoffYearFinish;
+                            ReasonCancel = "the barber in a day off";
+                            return false;
+                        }
+                    }
+                    // same month at the start
+                    if (monthClient == barberDayoffMonthStart) {
+                        if (dayClient == barberDayoffDayStart) {
+                            Error = "The barber is on his day off try after: " + barberDayoffDayFinish + "/" + barberDayoffMonthFinish + "/" + barberDayoffYearFinish;
+                            ReasonCancel = "the barber in a day off";
+                            return false;
+                        }
+                    }
+                }
+                if ((yearClient == barberDayoffYearFinish)) {
 
-                   if(monthClient==barberDayoffMonthFinish)
-                   {
-                       if((dayClient<barberDayoffDayFinish)||(dayClient==barberDayoffDayFinish))
-                       {
-                           Error = "The barber is on his day off try after: "+barberDayoffDayFinish+"/"+barberDayoffMonthFinish+"/"+barberDayoffYearFinish;
-                           ReasonCancel = "the barber in a day off";
+                    if (monthClient == barberDayoffMonthFinish) {
+                        if ((dayClient < barberDayoffDayFinish) || (dayClient == barberDayoffDayFinish)) {
+                            Error = "The barber is on his day off try after: " + barberDayoffDayFinish + "/" + barberDayoffMonthFinish + "/" + barberDayoffYearFinish;
+                            ReasonCancel = "the barber in a day off";
 
-                           return false;
-                       }
+                            return false;
+                        }
 
-                   }
-               }
+                    }
+                }
 
 
-               //check the barber sick date with client
+                //check the barber sick date with client
 
-               //start sick
-               DateCal barberSickStart = barber.getStartSickDay();
+                //start sick
+                DateCal barberSickStart = barber.getStartSickDay();
 
-               String daySickStart =barberSickStart.getDay();
-               int barberDaySickStart = Integer.parseInt(daySickStart);
+                String daySickStart = barberSickStart.getDay();
+                int barberDaySickStart = Integer.parseInt(daySickStart);
 
-               String monthSickStart =barberSickStart.getMonth();
-               int barberMonthSickStart = Integer.parseInt(monthSickStart);
+                String monthSickStart = barberSickStart.getMonth();
+                int barberMonthSickStart = Integer.parseInt(monthSickStart);
 
-               String yearSickStart =barberSickStart.getYear();
-               int barberYearSickStart = Integer.parseInt(yearSickStart);
+                String yearSickStart = barberSickStart.getYear();
+                int barberYearSickStart = Integer.parseInt(yearSickStart);
 
-               //finish sick
-               DateCal barberSickFinish = barber.getFinishSickDay();
+                //finish sick
+                DateCal barberSickFinish = barber.getFinishSickDay();
 
-               String daySickFinish =barberSickFinish.getDay();
-               int barberDaySickFinish = Integer.parseInt(daySickFinish);
+                String daySickFinish = barberSickFinish.getDay();
+                int barberDaySickFinish = Integer.parseInt(daySickFinish);
 
-               String monthSickFinish =barberSickFinish.getMonth();
-               int barberMonthSickFinish = Integer.parseInt(monthSickFinish);
+                String monthSickFinish = barberSickFinish.getMonth();
+                int barberMonthSickFinish = Integer.parseInt(monthSickFinish);
 
-               String yearSickFinish =barberSickFinish.getYear();
-               int barberYearSickFinish = Integer.parseInt(yearSickFinish);
+                String yearSickFinish = barberSickFinish.getYear();
+                int barberYearSickFinish = Integer.parseInt(yearSickFinish);
 
 
-               // same year at the start
-               if((yearClient == barberYearSickStart))
-               {
-                   // same month at the finish
-                   if(monthClient==barberMonthSickFinish){
-                       if((dayClient<barberDaySickFinish)||(dayClient==barberDaySickFinish))
-                       {Error = "The barber is sick try after: "+barberDaySickFinish+"/"+barberMonthSickFinish+"/"+barberYearSickFinish;
-                           ReasonCancel = "the barber is sick";
-                           return false;
-                       }
-                   }
-                   // same month at the start
-                   if(monthClient==barberMonthSickStart)
-                   {
-                       if(dayClient==barberDaySickStart)
-                       {
-                           Error = "The barber is sick try after: "+barberDaySickFinish+"/"+barberMonthSickFinish+"/"+barberYearSickFinish;
-                           ReasonCancel = "the barber is sick";
+                // same year at the start
+                if ((yearClient == barberYearSickStart)) {
+                    // same month at the finish
+                    if (monthClient == barberMonthSickFinish) {
+                        if ((dayClient < barberDaySickFinish) || (dayClient == barberDaySickFinish)) {
+                            Error = "The barber is sick try after: " + barberDaySickFinish + "/" + barberMonthSickFinish + "/" + barberYearSickFinish;
+                            ReasonCancel = "the barber is sick";
+                            return false;
+                        }
+                    }
+                    // same month at the start
+                    if (monthClient == barberMonthSickStart) {
+                        if (dayClient == barberDaySickStart) {
+                            Error = "The barber is sick try after: " + barberDaySickFinish + "/" + barberMonthSickFinish + "/" + barberYearSickFinish;
+                            ReasonCancel = "the barber is sick";
 
-                           return false;
-                       }
-                   }
-               }
-               //same year
-               if((yearClient==barberYearSickFinish)){
+                            return false;
+                        }
+                    }
+                }
+                //same year
+                if ((yearClient == barberYearSickFinish)) {
 
-                   if(monthClient==barberMonthSickFinish)
-                   {
-                       if((dayClient<barberDaySickFinish)||(dayClient==barberDaySickFinish))
-                       {
-                           Error = "The barber is sick try after: "+barberDaySickFinish+"/"+barberMonthSickFinish+"/"+barberYearSickFinish;
-                           ReasonCancel = "the barber is sick";
-                           return false;
+                    if (monthClient == barberMonthSickFinish) {
+                        if ((dayClient < barberDaySickFinish) || (dayClient == barberDaySickFinish)) {
+                            Error = "The barber is sick try after: " + barberDaySickFinish + "/" + barberMonthSickFinish + "/" + barberYearSickFinish;
+                            ReasonCancel = "the barber is sick";
+                            return false;
 
-                       }
+                        }
 
-                   }
-               }
+                    }
+                }
 
-           }
+            }
 
         }
-          return true;
+        return true;
+    }
     public void loadQueueListBarberFragment() {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
