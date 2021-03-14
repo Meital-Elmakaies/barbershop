@@ -11,14 +11,10 @@ public class BarberCalendar {
     private String endTime;
 
 
-    public BarberCalendar(DateCal StartSickDay, DateCal FinishSickDay, DateCal StartDaysOff, DateCal FinishDaysOff){
-        this.StartSickDay= StartSickDay;
-        this.FinishSickDay=FinishSickDay;
-        this.StartDaysOff=StartDaysOff;
-        this.FinishDaysOff=FinishDaysOff;
-    }
-
-    public BarberCalendar(){};
+    public BarberCalendar(){
+        this.startTime = "09:00";
+        this.endTime= "20:00";
+    };
 
 
 

@@ -103,7 +103,7 @@ public class FragmentClientAppointmentPage extends Fragment {
 
         List<String> Hour = new ArrayList<>();
         Hour.add("choose");
-        for(int i=9 ; i<=20 ; i++)
+        for(int i=8 ; i<=24 ; i++)
         {
             if(i<10)
             {
