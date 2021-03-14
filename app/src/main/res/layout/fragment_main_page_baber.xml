@@ -46,16 +46,23 @@
         </LinearLayout>
     </LinearLayout>
 
-    <org.naishadhparmar.zcustomcalendar.CustomCalendar
-        android:id="@+id/custom_calender"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.6"
+        android:layout_weight="1"
         android:background="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:orientation="horizontal">
 
-    </org.naishadhparmar.zcustomcalendar.CustomCalendar>
+        <Button
+            android:id="@+id/QueueList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Queue list"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -71,4 +78,5 @@
             android:layout_weight="1"
             android:src="@drawable/barbershoplogonew" />
     </LinearLayout>
+
 </LinearLayout>
