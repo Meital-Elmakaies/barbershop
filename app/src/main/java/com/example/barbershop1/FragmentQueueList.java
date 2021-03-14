@@ -1,4 +1,4 @@
-package com.example.barbershop1.fragments;
+package com.example.barbershop1;
 
 import android.os.Bundle;
 
@@ -7,17 +7,21 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.TextView;
 
-import com.example.barbershop1.R;
+import com.example.barbershop1.activity.MainActivity;
 import com.example.barbershop1.activity.MainPage;
+import com.example.barbershop1.classes.AppointmentInfo;
+import com.example.barbershop1.classes.AppointmentWapper;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FragmentMainPageBarber#newInstance} factory method to
+ * Use the {@link FragmentQueueList#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentMainPageBarber extends Fragment {
+public class FragmentQueueList extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,7 +32,7 @@ public class FragmentMainPageBarber extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public FragmentMainPageBarber() {
+    public FragmentQueueList() {
         // Required empty public constructor
     }
 
@@ -38,11 +42,11 @@ public class FragmentMainPageBarber extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentMainPageBaber.
+     * @return A new instance of fragment fragment_Queue_List.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentMainPageBarber newInstance(String param1, String param2) {
-        FragmentMainPageBarber fragment = new FragmentMainPageBarber();
+    public static FragmentQueueList newInstance(String param1, String param2) {
+        FragmentQueueList fragment = new FragmentQueueList();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -63,31 +67,28 @@ public class FragmentMainPageBarber extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_main_page_baber, container, false);
+        View view = inflater.inflate(R.layout.fragment__queue__list, container, false);
+        ArrayList<TextView> listText = new ArrayList<>();
 
-        Button setting = view.findViewById(R.id.SettingsBtn);
-        Button queueList = view.findViewById(R.id.QueueList);
+        listText.add(view.findViewById(R.id.appointment1));
+        listText.add(view.findViewById(R.id.appointment2));
+        listText.add(view.findViewById(R.id.appointment3));
+        listText.add(view.findViewById(R.id.appointment4));
+        listText.add(view.findViewById(R.id.appointment5));
+        listText.add(view.findViewById(R.id.appointment6));
 
-        setting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        AppointmentWapper appointment = AppointmentWapper.getInstance();
 
-                MainPage mainPage = (MainPage) getActivity();
-                mainPage.loadSettingBarberFragment();
-            }
-        });
 
-        queueList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        for (int i = 0; i < appointment.GetAppointmentList().size(); i++) {
+            AppointmentInfo info =appointment.GetAppointmentList().get(i);
 
-                MainPage mainPage = (MainPage) getActivity();
-                mainPage.loadQueueListBarberFragment();
-            }
-        });
+           listText.get(i).setText(info.getName()+" at "+info.getDay()+"/"+info.getMonth()+"/"+info.getYear()+" "+info.getHour()+" "+info.getHaircut());
+        }
+
+        //MainPage mainPage = (MainPage) getActivity();
+        //mainPage.loadAppointment();
 
         return view;
-
-
     }
 }
