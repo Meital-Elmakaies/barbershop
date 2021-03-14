@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.barbershop1.FragmentQueueList;
 import com.example.barbershop1.R;
 import com.example.barbershop1.classes.AppointmentInfo;
 import com.example.barbershop1.classes.AppointmentWapper;
@@ -663,6 +664,19 @@ public class MainPage extends AppCompatActivity {
 
         }
           return true;
+    public void loadQueueListBarberFragment() {
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.replace(R.id.FragmentMainFrame, new FragmentQueueList()).addToBackStack(null).commit();
+    }
+
+    public void loadAppointment() {
+
+        AppointmentWapper appointment = AppointmentWapper.getInstance();
+
+        for (int i = 0; i < appointment.GetAppointmentList().size(); i++) {
+
+        }
     }
 }
 
